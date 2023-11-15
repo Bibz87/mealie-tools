@@ -5,6 +5,11 @@
 * [🔗 Table of Contents](#%F0%9F%94%97-table-of-contents)
 * [❔ Why](#%E2%9D%94-why)
 * [⚠️ Disclaimer](#%E2%9A%A0%EF%B8%8F-disclaimer)
+* [🧾 Prerequisites](#%F0%9F%A7%BE-prerequisites)
+* [💻 Installation](#%F0%9F%92%BB-installation)
+* [🐳 Dev Container](#%F0%9F%90%B3-dev-container)
+* [⚙️ Usage](#%E2%9A%99%EF%B8%8F-usage)
+  * [Batch Recipe Updater](#batch-recipe-updater)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
 * [📋 References](#%F0%9F%93%8B-references)
@@ -24,6 +29,36 @@ These scripts were meant to be used and then thrown away. They were never
 intended to be clean and reusable code. While they can be used as a starting
 point, there are several changes required to make them stable, secure and robust
 and these are outside the scope of this project.
+
+## 🧾 Prerequisites
+
+To these tools as-is, you'll need:
+
+* A Mealie instance with API access
+* Python 3 (was tested with version `3.11.6`)
+* pip (if using Python `<3.4`)
+
+## 💻 Installation
+
+To install, run this command: `pip install -r tools/requirements.txt`
+
+## 🐳 Dev Container
+
+This project has a dev container defined with all prerequisites installed. The
+container can be used for development or for running the tools.
+
+## ⚙️ Usage
+
+### Batch Recipe Updater
+
+Script to update Mealie recipes in batches.
+
+``` shell
+python tools/batch-recipe-updater.py \
+  -v DEBUG \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
+```
 
 ## 🙋‍♂️ Support & Assistance
 

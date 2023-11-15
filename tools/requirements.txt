@@ -1,0 +1,4 @@
+requests
+requests-cache
+python-slugify
+pydantic == 2.3.0
