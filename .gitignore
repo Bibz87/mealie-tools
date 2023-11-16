@@ -165,6 +165,10 @@ cython_debug/
 # Goodfood Scans Organiser files
 last-category.json
 
+# Recipe Title Analyser files
+title-ratios.tsv
+title-report.json
+
 # Example folders
 scans
 ocrData

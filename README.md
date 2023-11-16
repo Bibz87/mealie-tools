@@ -14,6 +14,7 @@
   * [Goodfood Recipe Analyser](#goodfood-recipe-analyser)
   * [Goodfood Import](#goodfood-import)
   * [Batch Recipe Updater](#batch-recipe-updater)
+  * [Recipe Title Analyser](#recipe-title-analyser)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
 * [📋 References](#%F0%9F%93%8B-references)
@@ -133,6 +134,25 @@ Script to update Mealie recipes in batches.
 
 ``` shell
 python tools/batch-recipe-updater.py \
+  -v DEBUG \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
+```
+
+### Recipe Title Analyser
+
+This tool runs title comparison on all Mealie recipes to find out potential
+duplicates.
+
+There are 2 files outputted by this script:
+  * `title-ratios.tsv`: a comparison matrix of all recipe titles' similarity
+    percentage. Useful to have a quick overview of potential duplicates when
+    using Excel or any `.tsv`-friendly viewer.
+  * `title-report.json`: JSON file containing a list of all potential duplicate
+    recipe pairs.
+
+``` shell
+python tools/recipe-title-analyser.py \
   -v DEBUG \
   -u https://mealie.your-domain.com \
   -t YOUR_API_TOKEN
