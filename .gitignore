@@ -161,3 +161,11 @@ cython_debug/
 
 # SQLite databases
 *.sqlite
+
+# Goodfood Scans Organiser files
+last-category.json
+
+# Example folders
+scans
+ocrData
+sorted

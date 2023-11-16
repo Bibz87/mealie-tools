@@ -10,6 +10,7 @@
 * [🐳 Dev Container](#%F0%9F%90%B3-dev-container)
 * [⚙️ Usage](#%E2%9A%99%EF%B8%8F-usage)
   * [Goodfood Scans Analyser](#goodfood-scans-analyser)
+  * [Goodfood Scans Organiser](#goodfood-scans-organiser)
   * [Batch Recipe Updater](#batch-recipe-updater)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
@@ -61,6 +62,33 @@ python tools/goodfood-scans-analyser.py \
   -o ocrData/ \
   -u https://mealie.your-domain.com \
   -t YOUR_API_TOKEN
+```
+
+### Goodfood Scans Organiser
+
+Interactively organises freshly scanned files. Files will be organised like this:
+
+``` text
+output                  # Output folder defined by --ocrDataPath
+├── Recipe Title A
+│   ├── Back.png        # Back side scan
+│   ├── Front.png       # Front side scan
+│   ├── metadata.json   # Metadata to be used by other tools
+│   └── ocr-front.json  # Front side raw OCR data
+├── Recipe Title B
+├── ...
+└── Recipe Title Z
+```
+
+`ocrDataPath` expects a path where files produced by [Goodfood Scans
+Analyser](#goodfood-scans-analyser) are located.
+
+``` shell
+python tools/goodfood-scans-organiser.py \
+  -v DEBUG \
+  -i scans/ \
+  -o sorted/ \
+  --ocrDataPath ocrData/
 ```
 
 ### Batch Recipe Updater

@@ -2,7 +2,10 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
   "name": "Python 3",
-  "image": "python:3.11-bullseye",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
 
   "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && cd tools && pip3 install --user -r requirements.txt",
 
