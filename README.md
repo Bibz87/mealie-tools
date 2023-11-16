@@ -9,6 +9,7 @@
 * [💻 Installation](#%F0%9F%92%BB-installation)
 * [🐳 Dev Container](#%F0%9F%90%B3-dev-container)
 * [⚙️ Usage](#%E2%9A%99%EF%B8%8F-usage)
+  * [Goodfood Scans Analyser](#goodfood-scans-analyser)
   * [Batch Recipe Updater](#batch-recipe-updater)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
@@ -48,6 +49,19 @@ This project has a dev container defined with all prerequisites installed. The
 container can be used for development or for running the tools.
 
 ## ⚙️ Usage
+
+### Goodfood Scans Analyser
+
+Runs OCR on Goodfood recipe scans' front page.
+
+``` shell
+python tools/goodfood-scans-analyser.py \
+  -v DEBUG \
+  -i scans/ \
+  -o ocrData/ \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
+```
 
 ### Batch Recipe Updater
 
