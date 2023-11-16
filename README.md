@@ -12,6 +12,7 @@
   * [Goodfood Scans Analyser](#goodfood-scans-analyser)
   * [Goodfood Scans Organiser](#goodfood-scans-organiser)
   * [Goodfood Recipe Analyser](#goodfood-recipe-analyser)
+  * [Goodfood Import](#goodfood-import)
   * [Batch Recipe Updater](#batch-recipe-updater)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
@@ -108,6 +109,22 @@ Organiser](#goodfood-scans-organiser) are located.
 python tools/goodfood-recipes-analyser.py \
   -v DEBUG \
   -i sorted/
+```
+
+### Goodfood Import
+
+Script to import Goodfood recipes into Mealie automatically.
+
+`inputPath` expects a path where files produced by [Goodfood Scans
+Organiser](#goodfood-scans-organiser) are located.
+
+``` shell
+python tools/goodfood-mealie-import.py \
+  -v DEBUG \
+  -i sorted/ \
+  -o imported/ \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
 ```
 
 ### Batch Recipe Updater
