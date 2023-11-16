@@ -4,3 +4,4 @@ python-slugify
 pydantic == 2.3.0
 click
 pillow
+pytesseract

@@ -11,6 +11,7 @@
 * [⚙️ Usage](#%E2%9A%99%EF%B8%8F-usage)
   * [Goodfood Scans Analyser](#goodfood-scans-analyser)
   * [Goodfood Scans Organiser](#goodfood-scans-organiser)
+  * [Goodfood Recipe Analyser](#goodfood-recipe-analyser)
   * [Batch Recipe Updater](#batch-recipe-updater)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
@@ -89,6 +90,24 @@ python tools/goodfood-scans-organiser.py \
   -i scans/ \
   -o sorted/ \
   --ocrDataPath ocrData/
+```
+
+### Goodfood Recipe Analyser
+
+Runs OCR on Goodfood recipes' pages (front & back) and stores the data in files.
+Using this tool is faster than calling Mealie's API (i.e. faster than [Goodfood
+Scans Analyser](#goodfood-scans-analyser)), as it completely removes Mealie's
+overhead and does OCR directly. This script requires `tesseract` to be
+installed. The dev container includes `tesseract` and can be used to run this
+script.
+
+`inputPath` expects a path where files produced by [Goodfood Scans
+Organiser](#goodfood-scans-organiser) are located.
+
+``` shell
+python tools/goodfood-recipes-analyser.py \
+  -v DEBUG \
+  -i sorted/
 ```
 
 ### Batch Recipe Updater
