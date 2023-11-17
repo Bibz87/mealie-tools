@@ -1,14 +1,15 @@
-from enum import StrEnum
 import logging
 import os
 import pathlib
 import requests
-from requests_cache import CachedSession, NEVER_EXPIRE, ExpirationTime
-from slugify import slugify
+from enum import StrEnum
 from models.CategorySummary import CategorySummary
 from models.Recipe import Recipe
 from models.RecipeSettings import RecipeSettings
 from models.RecipeTag import RecipeTag
+from pydantic import UUID4
+from slugify import slugify
+from requests_cache import CachedSession, NEVER_EXPIRE, ExpirationTime
 
 
 class BearerAuth(requests.auth.AuthBase):
@@ -152,6 +153,19 @@ class MealieApi():
         }
 
         r = self.session.post(url, auth=BearerAuth(self.token), json=data, verify=self.requestVerify)
+        r.raise_for_status()
+
+        return RecipeTag.from_json(r.json())
+
+    def updateTag(self, id: UUID4, newName: str) -> RecipeTag:
+        self.logger.debug(f"Updating tag ID '{id}' with new name '{newName}'")
+
+        url = f"{self.url}/api/organizers/tags/{id}"
+        data = {
+            "name": newName
+        }
+
+        r = self.session.put(url, auth=BearerAuth(self.token), json=data, verify=self.requestVerify)
         r.raise_for_status()
 
         return RecipeTag.from_json(r.json())

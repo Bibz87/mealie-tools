@@ -9,6 +9,7 @@
 * [💻 Installation](#%F0%9F%92%BB-installation)
 * [🐳 Dev Container](#%F0%9F%90%B3-dev-container)
 * [⚙️ Usage](#%E2%9A%99%EF%B8%8F-usage)
+  * [Flag Tags Seeder](#flag-tags-seeder)
   * [Goodfood Scans Analyser](#goodfood-scans-analyser)
   * [Goodfood Scans Organiser](#goodfood-scans-organiser)
   * [Goodfood Recipe Analyser](#goodfood-recipe-analyser)
@@ -54,6 +55,17 @@ This project has a dev container defined with all prerequisites installed. The
 container can be used for development or for running the tools.
 
 ## ⚙️ Usage
+
+### Flag Tags Seeder
+
+Adds "flag" tags to Mealie if they don't exist.
+
+``` shell
+python tools/flag-tags-seeder.py \
+  -v DEBUG \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
+```
 
 ### Goodfood Scans Analyser
 
