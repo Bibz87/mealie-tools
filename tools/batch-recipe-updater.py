@@ -178,7 +178,7 @@ def execute():
     if args.dryRun:
         logger.warning("[DRY RUN] Running script in dry run mode; recipes will not be modified")
 
-    mealieApi = MealieApi(args.url, args.token, args.caPath)
+    mealieApi = MealieApi(args.url, args.token, args.caPath, args.cacheDuration)
     processor = RecipeBatchProcessor(mealieApi)
 
     # tagSlugs = ["missing-spice-ratios"]

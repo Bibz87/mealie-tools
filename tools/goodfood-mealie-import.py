@@ -252,7 +252,7 @@ def execute():
     logger.debug(f"Input path: {args.inputPath}")
     logger.debug(f"Output path: {args.outputPath}")
 
-    mealieApi = MealieApi(args.url, args.token, args.caPath)
+    mealieApi = MealieApi(args.url, args.token, args.caPath, args.cacheDuration)
 
     results = importRecipes(
         logger,

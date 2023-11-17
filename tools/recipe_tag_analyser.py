@@ -638,7 +638,7 @@ def execute():
     logger.debug(f"URL: {args.url}")
     logger.info("Analysing recipe tags")
 
-    mealieApi = MealieApi(args.url, args.token, args.caPath, cacheDuration=timedelta(hours=12))
+    mealieApi = MealieApi(args.url, args.token, args.caPath, args.cacheDuration)
 
     recipes = mealieApi.getAllRecipes()
     recipes.sort(key=lambda r: r.slug)
