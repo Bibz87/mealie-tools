@@ -1,12 +1,11 @@
-import argparse
 import json
 import logging
-import sys
 
+from ArgsUtils import ArgsUtils
 from datetime import timedelta
 from enum import StrEnum
+from LogUtils import LogUtils
 from MealieApi import MealieApi
-from ColoredLogFormatter import ColoredLogFormatter
 from models.CategorySummary import CategorySummary
 from models.Recipe import Recipe, RecipeTag
 
@@ -55,51 +54,8 @@ class TagValidationResult():
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "-v",
-        "--verbosity",
-        help="Verbosity level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO")
-
-    parser.add_argument(
-        "-u",
-        "--url",
-        help="URL to Mealie instance",
-        required=True)
-
-    parser.add_argument(
-        "-t",
-        "--token",
-        help="Mealie API token",
-        required=True)
-
-    parser.add_argument(
-        "-c",
-        "--caPath",
-        help="Path to CA bundle used to verify server TLS certificate",
-        default=None)
-
+    parser = ArgsUtils.initialiseParser(scriptUsesMealieApi=True)
     return parser.parse_args()
-
-
-def initLogger(verbosity):
-    logger = logging.getLogger()
-    logger.setLevel(getattr(logging, verbosity))
-
-    consoleHandler = logging.StreamHandler(sys.stdout)
-    consoleHandler.setFormatter(ColoredLogFormatter())
-    logger.addHandler(consoleHandler)
-
-    fileHandler = logging.FileHandler('recipe-tag-analyser.log', encoding="utf-8")
-    fileLogFormat = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
-    fileHandler.setFormatter(fileLogFormat)
-    logger.addHandler(fileHandler)
-
-    logger.info("Logger initialised")
-
-    return logger
 
 
 # Returns tag if slug exists, otherwise returns None
@@ -674,7 +630,10 @@ def analyseRecipeTags(logger: logging.Logger,
 
 def execute():
     args = parseArgs()
-    logger = initLogger(args.verbosity)
+    logger = LogUtils.initialiseLogger(args.verbosity, filename="recipe-tag-analyser.log")
+
+    if args.dryRun:
+        logger.warning("[DRY RUN] Running script in dry run mode; file system will not be modified")
 
     logger.debug(f"URL: {args.url}")
     logger.info("Analysing recipe tags")
@@ -712,10 +671,13 @@ def execute():
 
     logger.info("Writing output file")
 
-    with open("tags-report.json", mode="w", encoding="utf-8") as jsonFile:
-        jsonFile.write(
-            json.dumps(report, default=lambda o: o.__dict__, indent=2, ensure_ascii=False)
-        )
+    if args.dryRun:
+        logger.warning("[DRY RUN] Would've written report file")
+    else:
+        with open("tags-report.json", mode="w", encoding="utf-8") as jsonFile:
+            jsonFile.write(
+                json.dumps(report, default=lambda o: o.__dict__, indent=2, ensure_ascii=False)
+            )
 
     logger.info("Processing completed!")
 

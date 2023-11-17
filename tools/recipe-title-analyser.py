@@ -1,66 +1,24 @@
-import argparse
 import csv
 from datetime import timedelta
 import json
-import logging
-import sys
 
-from thefuzz import fuzz
+from ArgsUtils import ArgsUtils
+from LogUtils import LogUtils
 from MealieApi import MealieApi
-from ColoredLogFormatter import ColoredLogFormatter
+from thefuzz import fuzz
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "-v",
-        "--verbosity",
-        help="Verbosity level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO")
-
-    parser.add_argument(
-        "-u",
-        "--url",
-        help="URL to Mealie instance",
-        required=True)
-
-    parser.add_argument(
-        "-t",
-        "--token",
-        help="Mealie API token",
-        required=True)
-
-    parser.add_argument(
-        "-c",
-        "--caPath",
-        help="Path to CA bundle used to verify server TLS certificate",
-        default=None)
-
+    parser = ArgsUtils.initialiseParser(scriptUsesMealieApi=True)
     return parser.parse_args()
-
-
-def initLogger(verbosity):
-    logger = logging.getLogger()
-    logger.setLevel(getattr(logging, verbosity))
-
-    consoleHandler = logging.StreamHandler(sys.stdout)
-    consoleHandler.setFormatter(ColoredLogFormatter())
-    logger.addHandler(consoleHandler)
-
-    fileHandler = logging.FileHandler('recipe-title-analyser.log', encoding="utf-8")
-    fileLogFormat = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
-    fileHandler.setFormatter(fileLogFormat)
-    logger.addHandler(fileHandler)
-
-    logger.info("Logger initialised")
-
-    return logger
 
 
 def execute():
     args = parseArgs()
-    logger = initLogger(args.verbosity)
+    logger = LogUtils.initialiseLogger(args.verbosity, filename="recipe-title-analyser.log")
+
+    if args.dryRun:
+        logger.warning("[DRY RUN] Running script in dry run mode; file system will not be modified")
 
     logger.debug(f"URL: {args.url}")
     logger.info("Analysing recipe titles")
@@ -110,13 +68,16 @@ def execute():
         "potentialDuplicates": potentialDuplicates
     }
 
-    with open("title-report.json", mode="w", encoding="utf-8") as jsonFile:
-        jsonFile.write(json.dumps(report, indent=2))
+    if args.dryRun:
+        logger.warning("[DRY RUN] Would've written report and ratios files")
+    else:
+        with open("title-report.json", mode="w", encoding="utf-8") as jsonFile:
+            jsonFile.write(json.dumps(report, indent=2))
 
-    with open("title-ratios.tsv", mode="w", encoding="utf-8", newline="") as tsvFile:
-        dw = csv.DictWriter(tsvFile, sorted(ratios[0].keys()), delimiter='\t')
-        dw.writeheader()
-        dw.writerows(ratios)
+        with open("title-ratios.tsv", mode="w", encoding="utf-8", newline="") as tsvFile:
+            dw = csv.DictWriter(tsvFile, sorted(ratios[0].keys()), delimiter='\t')
+            dw.writeheader()
+            dw.writerows(ratios)
 
     logger.info("Processing completed!")
 

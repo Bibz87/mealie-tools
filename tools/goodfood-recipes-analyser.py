@@ -1,26 +1,13 @@
-import argparse
 import json
-import logging
 import os
-import sys
 
+from ArgsUtils import ArgsUtils
+from LogUtils import LogUtils
 from MealieOcr import MealieOcr
-from ColoredLogFormatter import ColoredLogFormatter
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "-v",
-        "--verbosity",
-        help="Verbosity level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO")
-    parser.add_argument(
-        "-d",
-        "--dryRun",
-        help="No-op; will not modify file system",
-        action="store_true")
+    parser = ArgsUtils.initialiseParser()
 
     parser.add_argument(
         "-i",
@@ -28,24 +15,6 @@ def parseArgs():
         help="Path where recipes to be processed are located")
 
     return parser.parse_args()
-
-
-def initLogger(verbosity):
-    logger = logging.getLogger()
-    logger.setLevel(getattr(logging, verbosity))
-
-    consoleHandler = logging.StreamHandler(sys.stdout)
-    consoleHandler.setFormatter(ColoredLogFormatter())
-    logger.addHandler(consoleHandler)
-
-    fileHandler = logging.FileHandler('goodfood-recipes-analyser.log', encoding="utf-8")
-    fileLogFormat = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
-    fileHandler.setFormatter(fileLogFormat)
-    logger.addHandler(fileHandler)
-
-    logger.info("Logger initialised")
-
-    return logger
 
 
 def analyseImage(logger, mealieOcr: MealieOcr, imagePath, outputFilePath, isDryRun) -> list[MealieOcr.OcrChunk]:
@@ -127,7 +96,7 @@ def analyseRecipes(logger, mealieOcr: MealieOcr, inputPath, isDryRun):
 
 def execute():
     args = parseArgs()
-    logger = initLogger(args.verbosity)
+    logger = LogUtils.initialiseLogger(args.verbosity, filename="goodfood-recipes-analyser.log")
 
     if args.dryRun:
         logger.warning("[DRY RUN] Running script in dry run mode; file system will not be modified")

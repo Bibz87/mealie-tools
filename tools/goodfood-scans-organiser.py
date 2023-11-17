@@ -1,34 +1,21 @@
-import argparse
 import re
 import shutil
 import click
 from itertools import zip_longest
 import json
-import logging
 import os
 from PIL import Image
 from slugify import slugify
-import sys
 import time
 
-from ColoredLogFormatter import ColoredLogFormatter
+from ArgsUtils import ArgsUtils
+from LogUtils import LogUtils
 
 lastCategoryFileName = "last-category.json"
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "-v",
-        "--verbosity",
-        help="Verbosity level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO")
-    parser.add_argument(
-        "-d",
-        "--dryRun",
-        help="No-op; will not modify file system",
-        action="store_true")
+    parser = ArgsUtils.initialiseParser()
 
     parser.add_argument(
         "-i",
@@ -48,24 +35,6 @@ def parseArgs():
         required=True)
 
     return parser.parse_args()
-
-
-def initLogger(verbosity):
-    logger = logging.getLogger()
-    logger.setLevel(getattr(logging, verbosity))
-
-    consoleHandler = logging.StreamHandler(sys.stdout)
-    consoleHandler.setFormatter(ColoredLogFormatter())
-    logger.addHandler(consoleHandler)
-
-    fileHandler = logging.FileHandler('goodfood-scans-organiser.log', encoding="utf-8")
-    fileLogFormat = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
-    fileHandler.setFormatter(fileLogFormat)
-    logger.addHandler(fileHandler)
-
-    logger.info("Logger initialised")
-
-    return logger
 
 
 def loadCategory(logger):
@@ -511,7 +480,7 @@ def logExecutionReport(logger, results):
 
 def execute():
     args = parseArgs()
-    logger = initLogger(args.verbosity)
+    logger = LogUtils.initialiseLogger(args.verbosity, filename="goodfood-scans-organiser.log")
 
     if args.dryRun:
         logger.warning("[DRY RUN] Running script in dry run mode; file system will not be modified")

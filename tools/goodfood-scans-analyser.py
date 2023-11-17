@@ -1,45 +1,14 @@
-import argparse
 from itertools import zip_longest
 import json
-import logging
 import os
-import sys
 
+from ArgsUtils import ArgsUtils
+from LogUtils import LogUtils
 from MealieApi import MealieApi
-from ColoredLogFormatter import ColoredLogFormatter
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "-v",
-        "--verbosity",
-        help="Verbosity level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO")
-    parser.add_argument(
-        "-d",
-        "--dryRun",
-        help="No-op; will not modify file system",
-        action="store_true")
-
-    parser.add_argument(
-        "-u",
-        "--url",
-        help="URL to Mealie instance",
-        required=True)
-
-    parser.add_argument(
-        "-t",
-        "--token",
-        help="Mealie API token",
-        required=True)
-
-    parser.add_argument(
-        "-c",
-        "--caPath",
-        help="Path to CA bundle used to verify server TLS certificate",
-        default=None)
+    parser = ArgsUtils.initialiseParser(scriptUsesMealieApi=True)
 
     parser.add_argument(
         "-i",
@@ -54,24 +23,6 @@ def parseArgs():
         required=True)
 
     return parser.parse_args()
-
-
-def initLogger(verbosity):
-    logger = logging.getLogger()
-    logger.setLevel(getattr(logging, verbosity))
-
-    consoleHandler = logging.StreamHandler(sys.stdout)
-    consoleHandler.setFormatter(ColoredLogFormatter())
-    logger.addHandler(consoleHandler)
-
-    fileHandler = logging.FileHandler('goodfood-scans-analyser.log', encoding="utf-8")
-    fileLogFormat = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
-    fileHandler.setFormatter(fileLogFormat)
-    logger.addHandler(fileHandler)
-
-    logger.info("Logger initialised")
-
-    return logger
 
 
 def analyseScans(logger, mealieApi, inputPath, outputPath, isDryRun):
@@ -155,7 +106,7 @@ def logExecutionReport(logger, results):
 
 def execute():
     args = parseArgs()
-    logger = initLogger(args.verbosity)
+    logger = LogUtils.initialiseLogger(args.verbosity, filename="goodfood-scans-analyser.log")
 
     if args.dryRun:
         logger.warning("[DRY RUN] Running script in dry run mode; file system will not be modified")
