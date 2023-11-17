@@ -15,6 +15,7 @@
   * [Goodfood Import](#goodfood-import)
   * [Batch Recipe Updater](#batch-recipe-updater)
   * [Recipe Title Analyser](#recipe-title-analyser)
+  * [Recipe Tag Analyser](#recipe-tag-analyser)
 * [🙋‍♂️ Support \& Assistance](#%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F-support--assistance)
 * [🤝 Contributing](#%F0%9F%A4%9D-contributing)
 * [📋 References](#%F0%9F%93%8B-references)
@@ -153,6 +154,18 @@ There are 2 files outputted by this script:
 
 ``` shell
 python tools/recipe-title-analyser.py \
+  -v DEBUG \
+  -u https://mealie.your-domain.com \
+  -t YOUR_API_TOKEN
+```
+
+### Recipe Tag Analyser
+
+Validates "flag" tags and outputs a report listing conflicts, missing tags or
+missing fields.
+
+``` shell
+python tools/recipe_tag_analyser.py \
   -v DEBUG \
   -u https://mealie.your-domain.com \
   -t YOUR_API_TOKEN

@@ -35,6 +35,16 @@
         "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
         "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
 
+        "python.testing.unittestArgs": [
+          "-v",
+          "-s",
+          "./tools",
+          "-p",
+          "*_test.py"
+        ],
+        "python.testing.pytestEnabled": false,
+        "python.testing.unittestEnabled": true,
+
         "workbench.colorCustomizations": {
           "activityBar.activeBackground": "#c2eea5",
           "activityBar.background": "#c2eea5",

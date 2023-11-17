@@ -169,6 +169,9 @@ last-category.json
 title-ratios.tsv
 title-report.json
 
+# Recipe Tag Analyser files
+tags-report.json
+
 # Example folders
 scans
 ocrData
