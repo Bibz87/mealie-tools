@@ -15,7 +15,7 @@ def parseArgs():
     parser.add_argument(
         "-v",
         "--verbosity",
-        help="verbosity level",
+        help="Verbosity level",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         default="INFO")
 

@@ -13,7 +13,7 @@
   * [Goodfood Scans Analyser](#goodfood-scans-analyser)
   * [Goodfood Scans Organiser](#goodfood-scans-organiser)
   * [Goodfood Recipe Analyser](#goodfood-recipe-analyser)
-  * [Goodfood Import](#goodfood-import)
+  * [Goodfood Mealie Import](#goodfood-mealie-import)
   * [Batch Recipe Updater](#batch-recipe-updater)
   * [Recipe Title Analyser](#recipe-title-analyser)
   * [Recipe Tag Analyser](#recipe-tag-analyser)
@@ -62,9 +62,9 @@ Adds "flag" tags to Mealie if they don't exist.
 
 ``` shell
 python tools/flag-tags-seeder.py \
-  -v DEBUG \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ### Goodfood Scans Analyser
@@ -73,11 +73,11 @@ Runs OCR on Goodfood recipe scans' front page.
 
 ``` shell
 python tools/goodfood-scans-analyser.py \
-  -v DEBUG \
-  -i scans/ \
-  -o ocrData/ \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --inputPath scans/ \
+  --outputPath ocrData/ \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ### Goodfood Scans Organiser
@@ -101,9 +101,9 @@ Analyser](#goodfood-scans-analyser) are located.
 
 ``` shell
 python tools/goodfood-scans-organiser.py \
-  -v DEBUG \
-  -i scans/ \
-  -o sorted/ \
+  --verbosity DEBUG \
+  --inputPath scans/ \
+  --outputPath sorted/ \
   --ocrDataPath ocrData/
 ```
 
@@ -121,11 +121,11 @@ Organiser](#goodfood-scans-organiser) are located.
 
 ``` shell
 python tools/goodfood-recipes-analyser.py \
-  -v DEBUG \
-  -i sorted/
+  --verbosity DEBUG \
+  --inputPath sorted/
 ```
 
-### Goodfood Import
+### Goodfood Mealie Import
 
 Script to import Goodfood recipes into Mealie automatically.
 
@@ -134,11 +134,11 @@ Organiser](#goodfood-scans-organiser) are located.
 
 ``` shell
 python tools/goodfood-mealie-import.py \
-  -v DEBUG \
-  -i sorted/ \
-  -o imported/ \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --inputPath sorted/ \
+  --outputPath imported/ \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ### Batch Recipe Updater
@@ -147,9 +147,9 @@ Script to update Mealie recipes in batches.
 
 ``` shell
 python tools/batch-recipe-updater.py \
-  -v DEBUG \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ### Recipe Title Analyser
@@ -166,9 +166,9 @@ There are 2 files outputted by this script:
 
 ``` shell
 python tools/recipe-title-analyser.py \
-  -v DEBUG \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ### Recipe Tag Analyser
@@ -178,9 +178,9 @@ missing fields.
 
 ``` shell
 python tools/recipe_tag_analyser.py \
-  -v DEBUG \
-  -u https://mealie.your-domain.com \
-  -t YOUR_API_TOKEN
+  --verbosity DEBUG \
+  --url https://mealie.your-domain.com \
+  --token YOUR_API_TOKEN
 ```
 
 ## 🙋‍♂️ Support & Assistance
